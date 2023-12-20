@@ -1,0 +1,19 @@
+services: db: {
+	image: "ghcr.io/acorn-io/redis-external:v#.#.#"
+}
+
+containers: app: {
+	build: {
+		context: "."
+		target:  "dev"
+	}
+	consumes: ["db"]
+	ports: publish: "8000/http"
+	env: {
+		REDIS_HOST: "@{service.db.address}"
+		REDIS_USER: "@{service.db.secrets.admin.username}"
+		REDIS_PASS: "@{service.db.secrets.admin.password}"
+		REDIS_PORT: "@{service.db.ports.6379}"
+		REDIS_DB:   "@{service.db.data.dbName}"
+	}
+}

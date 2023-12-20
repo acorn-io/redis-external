@@ -1,0 +1,52 @@
+services: redis: {
+	generated: job: "create"
+	default: true
+}
+
+jobs: create: {
+	image: "alpine"
+	env: {
+		"secret://config": ""
+	}
+	dirs: {
+		"/acorn/scripts": "./scripts"
+	}
+	entrypoint: ["/acorn/scripts/render.sh"]
+}
+
+secrets: admin: {
+	type: "generated"
+	params: job: "create"
+}
+
+secrets: config: {
+	type: "credential.acorn.io/redis"
+	params: {
+		instructions: localData.instructions
+		promptOrder: ["proto", "address", "port", "adminUsername", "adminPassword", "dbName"]
+	}
+	data: {
+		address:       ""
+		port:          ""
+		adminUsername: ""
+		adminPassword: ""
+		proto:         ""
+		dbName:        ""
+	}
+}
+
+localData: instructions: """
+  ## Overview
+  
+  This will create the service from an existing Redis server.
+  
+  ## Instructions
+  
+  fill in:
+  
+  - address: the address of the Redis server endpoint (redis.example.com)
+  - port: the port of the MongoDB server (6379)
+  - adminPassword: the main password to use to connect to the Redis server as an admin
+  - proto: the protocol to use to connect to the Redis server.
+  - dbName: the name of the database to use 
+  """
