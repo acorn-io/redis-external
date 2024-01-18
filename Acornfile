@@ -1,3 +1,8 @@
+name:        "External Redis Server"
+description: "Create an Acorn service from an existing Redis server"
+readme:      "./README.md"
+info:        localData.info
+
 services: redis: {
 	generated: job: "create"
 	default: true
@@ -50,3 +55,18 @@ localData: instructions: """
   - proto: the protocol to use to connect to the Redis server.
   - dbName: the name of the database to use 
   """
+
+localData: info: """
+## Usage
+
+services: db: image: "ghcr.io/acorn-io/redis:v#.#.#-#"
+
+containers: app: {
+	image: "app-image"
+	env: {
+	  DB_HOST: "@{@{service.}db.address}"
+	  DB_PORT: "@{@{service.}db.port.6379}"
+	  DB_PASS: "@{@{service.}db.secrets.admin.token}"
+	}
+}
+"""
