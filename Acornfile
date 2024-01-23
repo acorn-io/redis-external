@@ -32,7 +32,7 @@ secrets: config: {
 	}
 	data: {
 		address:       ""
-		port:          ""
+		port:          "6379"
 		adminUsername: ""
 		adminPassword: ""
 		proto:         ""
@@ -50,7 +50,7 @@ localData: instructions: """
   fill in:
   
   - address: the address of the Redis server endpoint (redis.example.com)
-  - port: the port of the MongoDB server (6379)
+  - port: the port of the Redis server (6379)
   - adminPassword: the main password to use to connect to the Redis server as an admin
   - proto: the protocol to use to connect to the Redis server.
   - dbName: the name of the database to use 
